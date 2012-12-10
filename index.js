@@ -17,16 +17,15 @@ EventResource.prototype.clientGeneration = true;
 EventResource.prototype.handle = function (ctx, next) {
   var parts = ctx.url.split('/').filter(function(p) { return p; });
 
-  var result = {};
-
   var domain = {
       url: ctx.url
     , parts: parts
     , query: ctx.query
     , body: ctx.body
-    , 'this': result
+    , 'this': {}
+    , result: {}
     , setResult: function(val) {
-      result = val;
+      domain.result = val;
     }
   };
 
