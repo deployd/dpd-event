@@ -33,7 +33,7 @@ And over HTTP:
 In addition to the generic [custom resource event API](http://docs.deployd.com/docs/using-modules/reference/event-api.md), the following functions and variables are available while scripting the Event resource:
 
 
-#### setResult(result) <!-- api -->
+#### setResult(result)
 
 Sets the response body. The `result` argument can be a string or an object.
 
@@ -42,7 +42,7 @@ Sets the response body. The `result` argument can be a string or an object.
       setResult(result[0]);
     });
 
-#### url <!-- api -->
+#### url
 
 The URL of the request, without the resource's base URL. If the resource is called `/add-follower` and receives a request at `/add-follower/320d6151a9aad8ce`, the `url` value will be `/320d6151a9aad8ce`.
 
@@ -54,7 +54,7 @@ The URL of the request, without the resource's base URL. If the resource is call
       });
     }
 
-#### parts <!-- api -->
+#### parts
 
 An array of the parts of the url, separated by `/`. If the resource is called `/add-follower` and receives a request at `/add-follower/320d6151a9aad8ce/6d75e75d9bd9b8a6`, the `parts` value will be `['320d6151a9aad8ce', '6d75e75d9bd9b8a6']`.
 
@@ -67,7 +67,7 @@ An array of the parts of the url, separated by `/`. If the resource is called `/
       if (err) cancel(err);
     });
 
-#### query <!-- api -->
+#### query
 
 The query string object.
   
@@ -76,7 +76,7 @@ The query string object.
 
     setResult(query.a + query.b);
 
-#### body <!-- api -->
+#### body
 
 The body of the request.
 
