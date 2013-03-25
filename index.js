@@ -25,6 +25,11 @@ EventResource.prototype.handle = function (ctx, next) {
     , query: ctx.query
     , body: ctx.body
     , 'this': result
+    , setHeader: function (name, value) {
+        if (ctx.res.setHeader) {
+            ctx.res.setHeader(name, value);
+        }
+      }
     , setResult: function(val) {
       result = val;
     }
