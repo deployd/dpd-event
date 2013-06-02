@@ -8,7 +8,7 @@ function EventResource() {
 util.inherits(EventResource, Resource);
 
 EventResource.label = "Event";
-EventResource.events = ["get", "post"];
+EventResource.events = ["get", "post", "put", "delete"];
 
 module.exports = EventResource;
 
@@ -46,6 +46,14 @@ EventResource.prototype.handle = function (ctx, next) {
     });
   } else if (ctx.method === "GET" && this.events.get) {
     this.events.get.run(ctx, domain, function(err) {
+      ctx.done(err, result);
+    });
+  } else if (ctx.method === "DELETE" && this.events.delete) {
+    this.events.delete.run(ctx, domain, function(err) {
+      ctx.done(err, result);
+    });
+  } else if (ctx.method === "PUT" && this.events.put) {
+    this.events.put.run(ctx, domain, function(err) {
       ctx.done(err, result);
     });
   } else {
