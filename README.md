@@ -38,7 +38,7 @@ In addition to the generic [custom resource event API](http://docs.deployd.com/d
 Sets the response body. The `result` argument can be a string or an object.
 
     // On GET /top-score
-    dpd.scores.get({$limit: 1, $sort: {score: -1}, function(result) {
+    dpd.scores.get({$limit: 1, $sort: {score: -1}}, function(result) {
       setResult(result[0]);
     });
 
@@ -49,7 +49,7 @@ The URL of the request, without the resource's base URL. If the resource is call
     // On GET /statistics
     // Get the top score
     if (url === '/top-score') {
-      dpd.scores.get({$limit: 1, $sort: {score: -1}, function(result) {
+      dpd.scores.get({$limit: 1, $sort: {score: -1}}, function(result) {
         setResult(result[0]);
       });
     }
