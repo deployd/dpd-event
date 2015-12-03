@@ -73,8 +73,9 @@ The query string object.
   
     // On GET /sum
     // Return the sum of the a and b properties (/sum?a=5&b=1)
+    //remember that argument can only be a string or an object.
 
-    setResult(query.a + query.b);
+    setResult((query.a + query.b).toString());
 
 #### body
 
@@ -82,5 +83,6 @@ The body of the request.
 
     // On POST /sum
     // Return the sum of the a and b properties {a: 5, b: 1}
+    //remember that argument can only be a string or an object.
 
-    setResult(body.a + body.b);
+    setResult((body.a + body.b).toString());
