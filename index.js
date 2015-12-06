@@ -42,7 +42,6 @@ EventResource.prototype.handle = function (ctx, next) {
       result = val;
     }
     , error: function(key, val) {
-      debug('error %s %s', key, val);
       errors[key] = val || true;
       hasErrors = true;
     }
@@ -61,22 +60,22 @@ EventResource.prototype.handle = function (ctx, next) {
 
   if (ctx.method === "POST" && this.events.post) {
     this.events.post.run(ctx, domain, function(err) {
-      if(err || domain.hasErrors()) return done(err || errors);
+      if(err || domain.hasErrors()) return ctx.done(err || errors);
       ctx.done(null, result);
     });
   } else if (ctx.method === "GET" && this.events.get) {
     this.events.get.run(ctx, domain, function(err) {
-      if(err || domain.hasErrors()) return done(err || errors);
+      if(err || domain.hasErrors()) return ctx.done(err || errors);
       ctx.done(null, result);
     });
   } else if (ctx.method === "DELETE" && this.events.delete) {
     this.events.delete.run(ctx, domain, function(err) {
-      if(err || domain.hasErrors()) return done(err || errors);
+      if(err || domain.hasErrors()) return ctx.done(err || errors);
       ctx.done(null, result);
     });
   } else if (ctx.method === "PUT" && this.events.put) {
     this.events.put.run(ctx, domain, function(err) {
-      if(err || domain.hasErrors()) return done(err || errors);
+      if(err || domain.hasErrors()) return ctx.done(err || errors);
       ctx.done(null, result);
     });
   } else {
