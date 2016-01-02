@@ -64,22 +64,22 @@ EventResource.prototype.handle = function (ctx, next) {
   if (ctx.method === "POST" && this.events.post) {
     this.events.post.run(ctx, domain, function(err) {
       if(err || domain.hasErrors()) return ctx.done(err || errors);
-      Promise.resolve(result).then(function(r) { ctx.done(null, result)});
+      Promise.resolve(result).then(function(r) { ctx.done(null, r)});
     });
   } else if (ctx.method === "GET" && this.events.get) {
     this.events.get.run(ctx, domain, function(err) {
       if(err || domain.hasErrors()) return ctx.done(err || errors);
-      Promise.resolve(result).then(function(r) { ctx.done(null, result)});
+      Promise.resolve(result).then(function(r) { ctx.done(null, r)});
     });
   } else if (ctx.method === "DELETE" && this.events.delete) {
     this.events.delete.run(ctx, domain, function(err) {
       if(err || domain.hasErrors()) return ctx.done(err || errors);
-      Promise.resolve(result).then(function(r) { ctx.done(null, result)});
+      Promise.resolve(result).then(function(r) { ctx.done(null, r)});
     });
   } else if (ctx.method === "PUT" && this.events.put) {
     this.events.put.run(ctx, domain, function(err) {
       if(err || domain.hasErrors()) return ctx.done(err || errors);
-      Promise.resolve(result).then(function(r) { ctx.done(null, result)});
+      Promise.resolve(result).then(function(r) { ctx.done(null, r)});
     });
   } else {
     next();
