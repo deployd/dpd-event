@@ -56,6 +56,9 @@ EventResource.prototype.handle = function (ctx, next) {
     , hasErrors: function() {
       return hasErrors;
     }
+    , require: function(module) { // expose require function
+      return require(module);
+    }
   };
 
   if (ctx.method === "POST" && this.events.post) {
