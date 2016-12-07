@@ -84,3 +84,16 @@ The body of the request.
     // Return the sum of the a and b properties {a: 5, b: 1}
 
     setResult(body.a + body.b);
+
+## Async requests
+
+By default the event-code will automatically be finished by a response.
+Here's how to do async requests:
+
+
+    var done = ctx.done          // remember this to end the response (async)
+    ctx.done = function(){}      // dummy function for autoresponse (sync)
+
+    ctx.dpd.myresource.get({id: id}, function(result) {
+      done(result)
+    }); 
