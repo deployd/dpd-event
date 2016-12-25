@@ -1,12 +1,18 @@
 {
-  "name": "dpd-event",
-  "version": "0.0.3",
+  "name": "dpd-event-callback",
+  "version": "0.0.2",
   "description": "Deployd module to create custom events at a specified URL.",
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/deployd/dpd-event.git"
+    "url": "git://github.com/kscripnic/dpd-event-callBack.git"
   },
   "author": "",
-  "license": "BSD"
+  "license": "BSD",
+  "keywords": [
+  	"dpdmodule", 
+  	"deployd",
+  	"dpd",
+  	"dpd-event"
+  ]
 }

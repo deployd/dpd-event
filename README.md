@@ -1,3 +1,3 @@
 ## Event Resource Callback
 
-Make the request wait for function 'setResult' be called.
+A fork to dpd-event to make the request wait for function 'setResult([Result], [Error]);' be called.
