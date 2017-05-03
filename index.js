@@ -40,6 +40,8 @@ EventResource.prototype.handle = function (ctx, next) {
     }
   };
 
+  domain.requestId = ctx.req.requestId || domain.getHeader('X-Request-Id') || domain.getHeader('x-request-id');
+
   if (ctx.method === "POST" && this.events.post) {
     this.events.post.run(ctx, domain, function(err) {
       ctx.done(err, result);
@@ -60,5 +62,4 @@ EventResource.prototype.handle = function (ctx, next) {
     next();
   }
 
-  
 };
