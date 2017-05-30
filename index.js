@@ -8,6 +8,7 @@ function RouterEventResource() {
 util.inherits(RouterEventResource, Resource);
 
 RouterEventResource.label = "Router Event";
+RouterEventResource.defaultPath = "/middleware";
 RouterEventResource.events = ["get", "post", "put", "delete"];
 
 module.exports = RouterEventResource;
