@@ -1,11 +1,11 @@
 {
-  "name": "dpd-event-callback",
-  "version": "0.0.2",
-  "description": "Deployd module to create custom events at a specified URL.",
+  "name": "dpd-router-event",
+  "version": "1.0.0",
+  "description": "Deployd module to create a router event which runs always before target events are run.",
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/kscripnic/dpd-event-callBack.git"
+    "url": "git://github.com/ezra-obiwale/dpd-router-event.git"
   },
   "author": "",
   "license": "BSD",
@@ -13,6 +13,6 @@
   	"dpdmodule", 
   	"deployd",
   	"dpd",
-  	"dpd-event"
+  	"dpd-router-event"
   ]
 }
