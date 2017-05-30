@@ -16,14 +16,20 @@ module.exports = RouterEventResource;
 RouterEventResource.prototype.clientGeneration = false;
 
 RouterEventResource.prototype.handle = function (ctx, next) {
-    var parts = ctx.url.split('/').filter(function (p) {
+    var parts = ctx.req.url.split('/').filter(function (p) {
         return p;
-    });
+    }),
+            resource = parts.shift();
+
+    // pass dashboard and its activities through
+    if (["dashboard", "dpd.js", "__resources"].indexOf(resource) !== -1)
+        return next();
 
     var result = {};
 
     var domain = {
         url: ctx.url
+        , ressource: parts.shift()
         , parts: parts
         , query: ctx.query
         , body: ctx.body
