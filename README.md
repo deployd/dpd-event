@@ -4,6 +4,10 @@ A fork to dpd-event-callback to create events that run before target events are 
 
 It works with a [router middleware](https://github.com/ezra-obiwale/dpd-router-middleware) to ensure this happens.
 
+### Installation
+
+`npm install dpd-router-event dpd-router-middleware --save`
+
 ### Usage
 
 Two methods have been provided to indicate intent:
