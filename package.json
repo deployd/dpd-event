@@ -1,6 +1,6 @@
 {
   "name": "dpd-router-event",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Deployd module to create a router event which runs always before target events are run.",
   "main": "index.js",
   "repository": {
