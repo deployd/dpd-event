@@ -49,6 +49,9 @@ RouterEventResource.prototype.handle = function (ctx, next) {
             if (response) result = response;
             ctx.done(err, result);
         }
+        , killIf: function (logic, err, response) {
+            if (logic) domain.kill(err, response);
+        }
     };
 
     if (ctx.method === "POST" && this.events.post) {

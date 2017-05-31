@@ -14,5 +14,6 @@ Two methods have been provided to indicate intent:
 
 1. `proceed`: Indicates that the target endpoint event should be run. It takes not parameters.
 2. `kill`: Terminates the routing and sends a response. Parameters are error and response.
+3. `killIf`: Calls the kill method if the logic is true. Parameters are logic, error and response.
 
 NOTE: method `setResult` has been removed to mark a major difference between router events and normal events.
