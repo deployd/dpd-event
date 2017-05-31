@@ -9,7 +9,7 @@ util.inherits(RouterEventResource, Resource);
 
 RouterEventResource.label = "Router Event";
 RouterEventResource.defaultPath = "/middleware";
-RouterEventResource.events = ["get", "post", "put", "delete"];
+RouterEventResource.events = ["get", "post", "put", "delete", "beforerequest"];
 
 module.exports = RouterEventResource;
 
@@ -25,7 +25,8 @@ RouterEventResource.prototype.handle = function (ctx, next) {
     if (["dashboard", "dpd.js", "__resources"].indexOf(resource) !== -1)
         return next();
 
-    var result = {};
+    var result = {},
+            skipped = false;
 
     var domain = {
         url: ctx.url
@@ -44,7 +45,10 @@ RouterEventResource.prototype.handle = function (ctx, next) {
                 ctx.res.setHeader(name, value);
             }
         }
-        , proceed: next
+        , skip: function () {
+            skipped = true;
+            next();
+        }
         , kill: function (err, response) {
             if (response) result = response;
             ctx.done(err, result);
@@ -54,33 +58,42 @@ RouterEventResource.prototype.handle = function (ctx, next) {
         }
     };
 
-    if (ctx.method === "POST" && this.events.post) {
-        this.events.post.run(ctx, domain, function (err) {
-            if (err)
-                ctx.done(err, result);
-        });
-    }
-    else if (ctx.method === "GET" && this.events.get) {
-        this.events.get.run(ctx, domain, function (err) {
-            if (err)
-                ctx.done(err, result);
-        });
-    }
-    else if (ctx.method === "DELETE" && this.events.delete) {
-        this.events.delete.run(ctx, domain, function (err) {
-            if (err)
-                ctx.done(err, result);
-        });
-    }
-    else if (ctx.method === "PUT" && this.events.put) {
-        this.events.put.run(ctx, domain, function (err) {
-            if (err)
-                ctx.done(err, result);
-        });
-    }
-    else {
-        next();
-    }
+    this.events.beforerequest.run(ctx, domain, function (err) {
+        if (err)
+            ctx.done(err, result);
+
+        delete domain.skip;
+        domain.proceed = next;
+        if (skipped) return;
+
+        if (ctx.method === "POST" && this.events.post) {
+            this.events.post.run(ctx, domain, function (err) {
+                if (err)
+                    ctx.done(err, result);
+            });
+        }
+        else if (ctx.method === "GET" && this.events.get) {
+            this.events.get.run(ctx, domain, function (err) {
+                if (err)
+                    ctx.done(err, result);
+            });
+        }
+        else if (ctx.method === "DELETE" && this.events.delete) {
+            this.events.delete.run(ctx, domain, function (err) {
+                if (err)
+                    ctx.done(err, result);
+            });
+        }
+        else if (ctx.method === "PUT" && this.events.put) {
+            this.events.put.run(ctx, domain, function (err) {
+                if (err)
+                    ctx.done(err, result);
+            });
+        }
+        else {
+            next();
+        }
+    }.bind(this));
 
 
 };
