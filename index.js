@@ -40,7 +40,11 @@ EventResource.prototype.handle = function (ctx, next) {
         ctx.res.statusCode = statusCode;
       }
     , setResult: function(val) {
-      result = val;
+        if (typeof val === 'string' || typeof val === 'object') {
+          result = val;
+        } else {
+          result = '' + val;
+        }
     }
   };
 
