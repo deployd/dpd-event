@@ -26,8 +26,8 @@ EventResource.prototype.handle = function (ctx, next) {
     , body: ctx.body
     , 'this': result
     , getHeader: function (name) {
-        if (ctx.req.headers) {
-            return ctx.req.headers[name];
+        if (ctx.req.getHeader) {
+            return ctx.req.getHeader(name);
         }
       }
     , setHeader: function (name, value) {
