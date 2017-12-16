@@ -35,6 +35,10 @@ EventResource.prototype.handle = function (ctx, next) {
             ctx.res.setHeader(name, value);
         }
       }
+    , setStatusCode: function (statusCode) {
+        if (typeof statusCode !== "number") throw new TypeError("Status code must be a number")
+        ctx.res.statusCode = statusCode;
+      }
     , setResult: function(val) {
       result = val;
     }

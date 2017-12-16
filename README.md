@@ -61,6 +61,17 @@ Set a response header.
     setResult('typeof myCallback === "function" && myCallback("hello world")');
 ```
 
+#### setStatusCode(statusCode)
+
+Sets the response http status code.
+
+```javascript
+    // temporary redirect to somewhere else
+    setStatusCode(302);
+    setHeader('Location', 'https://somesite/someotherplace');
+
+```
+
 #### url
 
 The URL of the request, without the resource's base URL. If the resource is called `/add-follower` and receives a request at `/add-follower/320d6151a9aad8ce`, the `url` value will be `/320d6151a9aad8ce`.
