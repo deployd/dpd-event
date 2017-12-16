@@ -1,6 +1,6 @@
 {
   "name": "dpd-event",
-  "version": "0.0.3",
+  "version": "1.0.0",
   "description": "Deployd module to create custom events at a specified URL.",
   "main": "index.js",
   "repository": {
