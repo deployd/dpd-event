@@ -37,15 +37,35 @@ In addition to the generic [custom resource event API](http://docs.deployd.com/d
 
 Sets the response body. The `result` argument can be a string or an object.
 
+```javascript
     // On GET /top-score
-    dpd.scores.get({$limit: 1, $sort: {score: -1}}, function(result) {
+    dpd.scores.get({$limit: 1, $sort: {score: -1}}, (result) => {
       setResult(result[0]);
     });
+```
+
+#### getHeader(header)
+
+Gets a request header. `header` is case insensitive.
+
+```javascript
+    if (getHeader('x-api-key') != 'mysecretapikey') cancel(401, 'bad api key');
+```
+
+#### setHeader(header, value)
+
+Set a response header.
+
+```javascript
+    setHeader('Content-Type', 'text/javascript');
+    setResult('typeof myCallback === "function" && myCallback("hello world")');
+```
 
 #### url
 
 The URL of the request, without the resource's base URL. If the resource is called `/add-follower` and receives a request at `/add-follower/320d6151a9aad8ce`, the `url` value will be `/320d6151a9aad8ce`.
 
+```javascript
     // On GET /statistics
     // Get the top score
     if (url === '/top-score') {
@@ -53,11 +73,12 @@ The URL of the request, without the resource's base URL. If the resource is call
         setResult(result[0]);
       });
     }
+```
 
 #### parts
 
+```javascript
 An array of the parts of the url, separated by `/`. If the resource is called `/add-follower` and receives a request at `/add-follower/320d6151a9aad8ce/6d75e75d9bd9b8a6`, the `parts` value will be `['320d6151a9aad8ce', '6d75e75d9bd9b8a6']`.
-
     // On POST /add-score
     // Give the specified user (/add-score/:userId) 5 points
     var userId = parts[0];
@@ -66,21 +87,26 @@ An array of the parts of the url, separated by `/`. If the resource is called `/
     dpd.users.put({id: userId}, {score: {$inc: 5}}, function(result, err) {
       if (err) cancel(err);
     });
+```
 
 #### query
 
 The query string object.
   
+```javascript
     // On GET /sum
     // Return the sum of the a and b properties (/sum?a=5&b=1)
 
-    setResult(query.a + query.b);
+    setResult(Number(query.a) + Number(query.b));
+```
 
 #### body
 
 The body of the request.
 
+```javascript
     // On POST /sum
     // Return the sum of the a and b properties {a: 5, b: 1}
 
-    setResult(body.a + body.b);
+    setResult(Number(body.a) + Number(body.b));
+```
