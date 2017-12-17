@@ -18,6 +18,9 @@ EventResource.prototype.handle = function (ctx, next) {
   var parts = ctx.url.split('/').filter(function(p) { return p; });
 
   var result = {};
+  
+  var errors = {};
+  var hasErrors = false;
 
   var domain = {
       url: ctx.url
@@ -46,23 +49,45 @@ EventResource.prototype.handle = function (ctx, next) {
           result = '' + val;
         }
     }
+    , error: function(key, val) {
+      errors[key] = val || true;
+      hasErrors = true;
+    }
+    , errorIf: function(condition, key, value) {
+      if (condition) {
+        domain.error(key, value);
+      }
+    }
+    , errorUnless: function(condition, key, value) {
+      domain.errorIf(!condition, key, value);
+    }
+    , hasErrors: function() {
+      return hasErrors;
+    }
+    , require: function(module) { // expose require function
+      return require(module);
+    }
   };
 
   if (ctx.method === "POST" && this.events.post) {
     this.events.post.run(ctx, domain, function(err) {
-      ctx.done(err, result);
+      if(err || domain.hasErrors()) return ctx.done(err || errors);
+      Promise.resolve(result).then(function(r) { ctx.done(null, r)});
     });
   } else if (ctx.method === "GET" && this.events.get) {
     this.events.get.run(ctx, domain, function(err) {
-      ctx.done(err, result);
+      if(err || domain.hasErrors()) return ctx.done(err || errors);
+      Promise.resolve(result).then(function(r) { ctx.done(null, r)});
     });
   } else if (ctx.method === "DELETE" && this.events.delete) {
     this.events.delete.run(ctx, domain, function(err) {
-      ctx.done(err, result);
+      if(err || domain.hasErrors()) return ctx.done(err || errors);
+      Promise.resolve(result).then(function(r) { ctx.done(null, r)});
     });
   } else if (ctx.method === "PUT" && this.events.put) {
     this.events.put.run(ctx, domain, function(err) {
-      ctx.done(err, result);
+      if(err || domain.hasErrors()) return ctx.done(err || errors);
+      Promise.resolve(result).then(function(r) { ctx.done(null, r)});
     });
   } else {
     next();
