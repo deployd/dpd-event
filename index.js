@@ -48,25 +48,32 @@ EventResource.prototype.handle = function (ctx, next) {
     }
   };
 
-  if (ctx.method === "POST" && this.events.post) {
-    this.events.post.run(ctx, domain, function(err) {
+  this.events.beforerequest.run(ctx, domain, (err) => {
+
+    if (err)
       ctx.done(err, result);
-    });
-  } else if (ctx.method === "GET" && this.events.get) {
-    this.events.get.run(ctx, domain, function(err) {
-      ctx.done(err, result);
-    });
-  } else if (ctx.method === "DELETE" && this.events.delete) {
-    this.events.delete.run(ctx, domain, function(err) {
-      ctx.done(err, result);
-    });
-  } else if (ctx.method === "PUT" && this.events.put) {
-    this.events.put.run(ctx, domain, function(err) {
-      ctx.done(err, result);
-    });
-  } else {
-    next();
-  }
+
+    if (ctx.method === "POST" && this.events.post) {
+      this.events.post.run(ctx, domain, function (err) {
+        ctx.done(err, result);
+      });
+    } else if (ctx.method === "GET" && this.events.get) {
+      this.events.get.run(ctx, domain, function (err) {
+        ctx.done(err, result);
+      });
+    } else if (ctx.method === "DELETE" && this.events.delete) {
+      this.events.delete.run(ctx, domain, function (err) {
+        ctx.done(err, result);
+      });
+    } else if (ctx.method === "PUT" && this.events.put) {
+      this.events.put.run(ctx, domain, function (err) {
+        ctx.done(err, result);
+      });
+    } else {
+      next();
+    }
+
+  });
 
   
 };
