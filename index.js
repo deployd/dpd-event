@@ -8,7 +8,7 @@ function EventResource() {
 util.inherits(EventResource, Resource);
 
 EventResource.label = "Event";
-EventResource.events = ["get", "post", "put", "delete"];
+EventResource.events = ["get", "post", "put", "delete", "beforerequest"];
 
 module.exports = EventResource;
 
@@ -47,7 +47,7 @@ EventResource.prototype.handle = function (ctx, next) {
         }
     }
   };
-  if (this.events.beforerequest !== undefined) {
+  if (this.events.beforerequest) {
     this.events.beforerequest.run(ctx, domain, (err) => {
       if (err)
         ctx.done(err, result);
