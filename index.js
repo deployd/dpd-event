@@ -8,11 +8,22 @@ function EventResource() {
 util.inherits(EventResource, Resource);
 
 EventResource.label = "Event";
-EventResource.events = ["get", "post", "put", "delete", "beforerequest", "head"];
+EventResource.events = ["get", "post", "put", "delete", "head","beforerequest"];
 
 module.exports = EventResource;
 
 EventResource.prototype.clientGeneration = true;
+
+EventResource.prototype.beforeRequest = function(ctx, domain, cb){
+  if(this.events.beforerequest !== undefined){
+    this.events.beforerequest.run(ctx, domain, function(err) {
+      if(err) return ctx.done(err);
+      cb();
+    });
+  } else {
+    cb();
+  }
+};
 
 EventResource.prototype.handle = function (ctx, next) {
   var parts = ctx.url.split('/').filter(function(p) { return p; });
@@ -47,35 +58,8 @@ EventResource.prototype.handle = function (ctx, next) {
         }
     }
   };
-  if (this.events.beforerequest) {
-    this.events.beforerequest.run(ctx, domain, (err) => {
-      if (err)
-        ctx.done(err, result);
-      if (ctx.method === "POST" && this.events.post) {
-        this.events.post.run(ctx, domain, function (err) {
-          ctx.done(err, result);
-        });
-      } else if (ctx.method === "GET" && this.events.get) {
-        this.events.get.run(ctx, domain, function (err) {
-          ctx.done(err, result);
-        });
-      } else if (ctx.method === "DELETE" && this.events.delete) {
-        this.events.delete.run(ctx, domain, function (err) {
-          ctx.done(err, result);
-        });
-      } else if (ctx.method === "PUT" && this.events.put) {
-        this.events.put.run(ctx, domain, function (err) {
-          ctx.done(err, result);
-        });
-      } else if (ctx.method === "HEAD" && this.events.head) {
-        this.events.head.run(ctx, domain, function (err) {
-          ctx.done();
-        });
-      } else {
-        next();
-      }
-    });
-  } else {
+  
+  this.beforeRequest(ctx, domain, function(){
     if (ctx.method === "POST" && this.events.post) {
       this.events.post.run(ctx, domain, function (err) {
         ctx.done(err, result);
@@ -99,5 +83,5 @@ EventResource.prototype.handle = function (ctx, next) {
     } else {
       next();
     }
-  }
+  }.bind(this));
 };
