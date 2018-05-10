@@ -8,15 +8,15 @@ function EventResource() {
 util.inherits(EventResource, Resource);
 
 EventResource.label = "Event";
-EventResource.events = ["get", "post", "put", "delete", "head","beforerequest"];
+EventResource.events = ["Get", "Post", "Put", "Delete", "Head","BeforeRequest"];
 
 module.exports = EventResource;
 
 EventResource.prototype.clientGeneration = true;
 
-EventResource.prototype.beforeRequest = function(ctx, domain, cb){
-  if(this.events.beforerequest !== undefined){
-    this.events.beforerequest.run(ctx, domain, function(err) {
+EventResource.prototype.BeforeRequest = function(ctx, domain, cb){
+  if(this.events.BeforeRequest !== undefined){
+    this.events.BeforeRequest.run(ctx, domain, function(err) {
       if(err) return ctx.done(err);
       cb();
     });
@@ -59,7 +59,7 @@ EventResource.prototype.handle = function (ctx, next) {
     }
   };
   
-  this.beforeRequest(ctx, domain, function(){
+  this.BeforeRequest(ctx, domain, function(){
     if (ctx.method === "POST" && this.events.post) {
       this.events.post.run(ctx, domain, function (err) {
         ctx.done(err, result);
